@@ -26,7 +26,7 @@ class AuthController extends Controller
         if ($validation->fails()) {
 
             return response()->json([
-                "message" => "not valide"
+                "message" => "nooooooooot valide"
             ]);
         } else {
             $user = new User(
