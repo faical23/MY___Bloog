@@ -20,31 +20,25 @@ class AuthController extends Controller
     }
     public function login(Request $request){
 
+
         $valide = $request->validate([
             'email' => ['required','email','exists:users'],
             'password' => ['required', 'regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^']
         ]);
         $user = User::where('email', '=', $request->email)->first();
         $password = Hash::check($request->password, $user->password);
-
-
-        if($user) {
-            if($password){
-                return response()->json([
-                    "ID" => $user->id,
-                    "email" => $user->email,
-                    "password" => $user->password
-                ]);
-            }
-            else{
-                return response()->json([
-                    "message" =>"password incorrect",
-                ]);
-            }
-
+        if($password) {
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                    'token' => $token,
+                    'status' => 'user_login'
+            ]);
         }
-
-
+        else{
+            return response()->json([
+                "message" =>"password invalide",
+            ]);
+        }
     }
 
     public function store(Request $request)
