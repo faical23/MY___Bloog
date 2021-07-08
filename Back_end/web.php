@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\PostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +14,8 @@ use App\Http\Controllers\Auth\PostController;
 */
 Route::view('/', "home");
 Route::view('/home', "home");
-Route::get('/inscription',[AuthController::class,'index'])->name('inscription');
-Route::post('/inscription', [AuthController::class, 'store']);
-Route::view('/post', "post");
-
-Route::get('/post',[PostController::class,'index'])->name('post');
-Route::post('/post', [PostController::class, 'store']);
+Route::view('/about', "about",['name' => 'faical', 'age' =>25]);
+Route::view('/contact', "contact");
+Route::get('/profil/service={haricut}', function ($name) {
+    return view('profil' ,[ 'name' => $name]);
+});
