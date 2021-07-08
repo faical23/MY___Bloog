@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use Throwable;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request; //// les https request
-use Illuminate\Support\Facades\Request as FacadesRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+
 
 class AuthController extends Controller
 {
@@ -16,10 +18,33 @@ class AuthController extends Controller
     {
         return view('/inscription');
     }
-    public function get(Request $request){
-        return response()->json([
-            "message" => "email exist"
+    public function login(Request $request){
+
+        $valide = $request->validate([
+            'email' => ['required','email','exists:users'],
+            'password' => ['required', 'regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^']
         ]);
+        $user = User::where('email', '=', $request->email)->first();
+        $password = Hash::check($request->password, $user->password);
+
+
+        if($user) {
+            if($password){
+                return response()->json([
+                    "ID" => $user->id,
+                    "email" => $user->email,
+                    "password" => $user->password
+                ]);
+            }
+            else{
+                return response()->json([
+                    "message" =>"password incorrect",
+                ]);
+            }
+
+        }
+
+
     }
 
     public function store(Request $request)
@@ -48,4 +73,6 @@ class AuthController extends Controller
 
 
     }
+
+
 }
