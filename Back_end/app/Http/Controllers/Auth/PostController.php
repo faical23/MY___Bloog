@@ -49,4 +49,7 @@ class PostController extends Controller
                 "post_users" => $post
             ]);
         }
+        public function delete(){
+            echo "delete";
+        }
 }

@@ -28,6 +28,7 @@ Route::post('/Inscription/login', [AuthController::class, 'login']);
 Route::post('/post/create', [PostController::class, 'create']);
 //// get posts
 Route::get('/post/show/{id}', [PostController::class, 'show']);
+Route::get('/post/delete/{id}', [PostController::class, 'delete']);
 
 
 
