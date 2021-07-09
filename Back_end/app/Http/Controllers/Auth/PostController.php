@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use SebastianBergmann\Environment\Console;
 
 class PostController extends Controller
 {
@@ -37,5 +39,14 @@ class PostController extends Controller
                     "message" => "valide_post"
                 ]);
             }
+        }
+        public function show($userid){
+            $post = DB::table('_post')
+           ->where('post_ID', '=', $userid)
+           ->orderByDesc('created_at')
+           ->get();
+            return response()->json([
+                "post_users" => $post
+            ]);
         }
 }
