@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+//// authentification
 Route::post('/Inscription/insert', [AuthController::class, 'store']);
 Route::post('/Inscription/login', [AuthController::class, 'login']);
+
+//// add post
+Route::post('/post/create', [PostController::class, 'create']);
+
+
+
