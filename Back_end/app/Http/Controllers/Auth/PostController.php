@@ -9,12 +9,8 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-        public function index()
-        {
-            return view('/post');
-        }
         public function create(Request $request){
-            $valide = $request->validate([
+           $request->validate([
                 'post__titre' => 'required',
                 'post__topic' => 'required',
                 'post__description' => 'required',
@@ -22,8 +18,7 @@ class PostController extends Controller
                 'post__likes' => 'required',
                 'post__id' => 'required'
             ]);
-            // if($valide){
-                $user = post::create( // crae-te new one
+            post::create(
                     [
                         'post_titre' => $request->post__titre,
                         'post_topic' => $request->post__topic,
@@ -33,11 +28,9 @@ class PostController extends Controller
                         'post_ID' => $request->post__id
                     ]
                 );
-            //    $user->save(); // craete new one
                 return response()->json([
                     "message" => "valide_post"
                 ]);
-            // }
         }
         public function show($userid){
             $post = DB::table('_post')
@@ -47,6 +40,14 @@ class PostController extends Controller
             return response()->json([
                 "post_users" => $post
             ]);
+        }
+        public function singlePost($postId){
+            $post = DB::table('_post')
+            ->where('id', '=', $postId)
+            ->get();
+             return response()->json([
+                 "singlePost" => $post
+             ]);
         }
         public function delete($id){
             $deletePost = post::where('id', $id)->delete();
@@ -63,8 +64,23 @@ class PostController extends Controller
 
         }
         public function update(Request $request){
-            return response()->json([
-                "update" => "success"
+            $request->validate([
+                'post__titre' => 'required',
+                'post__topic' => 'required',
+                'post__description' => 'required',
             ]);
+
+
+            $update = post::where('id',$request->id__post)
+            ->update(['post_titre' => $request->post__titre,'post_topic' => $request->post__topic,'post_description' => $request->post__description]);
+
+            if($update){
+                return response()->json([
+                    "update" => 'success',
+                ]);
+            }
+
+
+
         }
 }

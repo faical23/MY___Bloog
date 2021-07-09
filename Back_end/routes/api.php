@@ -28,6 +28,8 @@ Route::post('/Inscription/login', [AuthController::class, 'login']);
 Route::post('/post/create', [PostController::class, 'create']);
 //// get posts
 Route::get('/post/show/{id}', [PostController::class, 'show']);
+//// get single post
+Route::get('/post/singlepost/{id}', [PostController::class, 'singlePost']);
 //// delete posts
 Route::get('/post/delete/{id}', [PostController::class, 'delete']);
 //// update post
