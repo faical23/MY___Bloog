@@ -6,7 +6,6 @@ use App\Models\post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use SebastianBergmann\Environment\Console;
 
 class PostController extends Controller
 {
@@ -23,8 +22,8 @@ class PostController extends Controller
                 'post__likes' => 'required',
                 'post__id' => 'required'
             ]);
-            if($valide){
-                $user = new post(
+            // if($valide){
+                $user = post::create( // crae-te new one
                     [
                         'post_titre' => $request->post__titre,
                         'post_topic' => $request->post__topic,
@@ -34,11 +33,11 @@ class PostController extends Controller
                         'post_ID' => $request->post__id
                     ]
                 );
-               $user->save();
+            //    $user->save(); // craete new one
                 return response()->json([
                     "message" => "valide_post"
                 ]);
-            }
+            // }
         }
         public function show($userid){
             $post = DB::table('_post')
@@ -49,7 +48,23 @@ class PostController extends Controller
                 "post_users" => $post
             ]);
         }
-        public function delete(){
-            echo "delete";
+        public function delete($id){
+            $deletePost = post::where('id', $id)->delete();
+            if($deletePost){
+                return response()->json([
+                    "delete" => "success"
+                ]);
+            }
+            else{
+                return response()->json([
+                    "delete" => "refuse"
+                ]);
+            }
+
+        }
+        public function update(Request $request){
+            return response()->json([
+                "update" => "success"
+            ]);
         }
 }
