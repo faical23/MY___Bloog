@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    public function index()
-    {
-        return view('/inscription');
-    }
     public function login(Request $request){
 
 
@@ -31,6 +27,8 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
                     'token' => $token,
+                    'id' => $user->id,
+                    'name' => $user->name,
                     'status' => 'user_login'
             ]);
         }
