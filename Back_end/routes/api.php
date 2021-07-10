@@ -51,7 +51,8 @@ Route::get('/post/all', [PostController::class, 'all_post']);
 
 //// get commantaire
 Route::get('/commontaire/all/{id}', [CmnController::class, 'show']);
-
+////////// add commentaire
+Route::post('/commontaire/create', [CmnController::class, 'store']);
 
 
 
