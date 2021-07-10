@@ -41,30 +41,27 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-         return response()->json([
-            "message" => $request->name
+
+        $valide = $request->validate([
+            "name" => ['required', 'regex:/^[a-zA-Z]\w{3,}+$/'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^']
         ]);
+        if ($valide) {
+            $user = new User(
+                [
+                    'name' => $request->name,
+                    "email" => $request->email,
+                    "status" => $request->status,
+                    'password' => bcrypt($request->password)
+                ]
+            );
+           $user->save();
 
-        // $valide = $request->validate([
-        //     "name" => ['required', 'regex:/^[a-zA-Z]\w{3,}+$/'],
-        //     'email' => ['required', 'email', 'unique:users'],
-        //     'password' => ['required', 'regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^']
-        // ]);
-        // if ($valide) {
-        //     $user = new User(
-        //         [
-        //             'name' => $request->name,
-        //             "email" => $request->email,
-        //             "status" => "user",
-        //             'password' => bcrypt($request->password)
-        //         ]
-        //     );
-        //    $user->save();
-
-        //     return response()->json([
-        //         "message" => "valide"
-        //     ]);
-        // }
+            return response()->json([
+                "message" => "success"
+            ]);
+        }
 
 
     }
