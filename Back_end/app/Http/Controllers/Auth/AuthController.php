@@ -68,6 +68,14 @@ class AuthController extends Controller
 
 
     }
+    public function get_user($iduser){
+        $user = DB::table('users')
+        ->where('id', '=', $iduser)
+        ->get();
+        return response()->json([
+            "user" => $user
+        ]);
+    }
 
 
 }

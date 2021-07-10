@@ -87,8 +87,26 @@ class PostController extends Controller
             $posts = DB::table('_post')
             ->orderByDesc('created_at')
             ->get();
+
+
+            $commnt = DB::table('commentaires')
+            ->where('ID_post', '=', 20)
+            ->orderByDesc('created_at')
+            ->get();
+
+            foreach($posts as $post){
+                $commnt = DB::table('commentaires')
+                ->where('ID_post', '=', $post->id)
+                ->orderByDesc('created_at')
+                ->get();
+                $post->commnt = count($commnt);
+            }
+
+
+
+
             return response()->json([
-                "all_post" => $posts
+                "all_post" => $posts,
             ]);
         }
 }
