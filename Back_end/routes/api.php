@@ -20,9 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//// authentification
+//// =============>  authentification
+
+//// inscription
 Route::post('/Inscription/insert', [AuthController::class, 'store']);
+///// login
 Route::post('/Inscription/login', [AuthController::class, 'login']);
+
+
+//// =============>  post crud
 
 //// add post
 Route::post('/post/create', [PostController::class, 'create']);
@@ -34,6 +40,8 @@ Route::get('/post/singlepost/{id}', [PostController::class, 'singlePost']);
 Route::get('/post/delete/{id}', [PostController::class, 'delete']);
 //// update post
 Route::post('/post/update', [PostController::class, 'update']);
+//// get all post
+Route::get('/post/all', [PostController::class, 'all_post']);
 
 
 

@@ -29,7 +29,7 @@ class AuthController extends Controller
                     'token' => $token,
                     'id' => $user->id,
                     'name' => $user->name,
-                    'status' => 'user_login'
+                    'status' => $user->status
             ]);
         }
         else{
@@ -41,27 +41,30 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-
-        $valide = $request->validate([
-
-            "name" => ['required', 'regex:/^[a-zA-Z]\w{3,}+$/'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^']
+         return response()->json([
+            "message" => $request->name
         ]);
-        if ($valide) {
-            $user = new User(
-                [
-                    'name' => $request->name,
-                    "email" => $request->email,
-                    'password' => bcrypt($request->password)
-                ]
-            );
-           $user->save();
 
-            return response()->json([
-                "message" => "valide"
-            ]);
-        }
+        // $valide = $request->validate([
+        //     "name" => ['required', 'regex:/^[a-zA-Z]\w{3,}+$/'],
+        //     'email' => ['required', 'email', 'unique:users'],
+        //     'password' => ['required', 'regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$^']
+        // ]);
+        // if ($valide) {
+        //     $user = new User(
+        //         [
+        //             'name' => $request->name,
+        //             "email" => $request->email,
+        //             "status" => "user",
+        //             'password' => bcrypt($request->password)
+        //         ]
+        //     );
+        //    $user->save();
+
+        //     return response()->json([
+        //         "message" => "valide"
+        //     ]);
+        // }
 
 
     }

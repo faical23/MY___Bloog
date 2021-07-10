@@ -83,4 +83,12 @@ class PostController extends Controller
 
 
         }
+        public function all_post(){
+            $posts = DB::table('_post')
+            ->orderByDesc('created_at')
+            ->get();
+            return response()->json([
+                "all_post" => $posts
+            ]);
+        }
 }
